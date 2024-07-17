@@ -11,6 +11,8 @@ vim_session:
 
 ######################################################################
 
+Sources += README.md notes.md ## TODO.md ##
+
 ## Use Dropboxes to pass and cache data so that we can keep the code open
 
 ## Make a local.mk (locally ☺) if you want to reset the Dropbox base directory
@@ -53,6 +55,15 @@ bitten.Rout: bitten.R dogs.csv
 ## Link events to parallel events for the upstream biter
 ## Produces table links
 linked.Rout: linked.R bitten.rds
+	$(pipeR)
+
+## Identify and eliminate outliers
+calcs.Rout: calcs.R linked.rds
+	$(pipeR)
+
+## Filter intervals to drop animals _bitten_ more than once
+
+once.Rout: once.R calcs.rda
 	$(pipeR)
 
 ######################################################################

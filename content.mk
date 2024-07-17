@@ -1,4 +1,113 @@
 
+## This is egfR0, a fresh new repo. Jan 2024
+## The old rabies_R0 and historical_R0 repos are now somewhat deprecated
+
+### Hooks
+current: target
+-include target.mk
+
+vim_session:
+	bash -cl "vmt TODO.md README.md notes.md"
+
+## Makefile: fake
+
+fake:
+	echo Why are you here && false
+
+##################################################################
+
+Sources += README.md notes.md 
+
+Ignore += $(wildcard *.Rproj .Rproj.*)
+
+######################################################################
+
+## Use Dropboxes to pass and cache data so that we can keep the code open
+
+## Make a local.mk (locally ☺) if you want to reset the Dropbox base directory
+Ignore += local.mk
+Drop = ~/Dropbox
+-include local.mk
+
+## Original data
+Ignore += datadir
+datadir/%:
+	$(MAKE) datadir
+datadir: dir=$(Drop)/Rabies_TZ/
+datadir:
+	$(linkdirname)
+
+## Pipeline outputs (different pointer inside the same Dropbox)
+Ignore += pipeline
+pipeline/%:
+	$(MAKE) pipeline
+pipeline: dir=$(Drop)/Rabies_TZ/pipeline/SD_dogs/
+pipeline:
+	$(linkdirname)
+
+#################################################################
+
+## Compile MS
+Sources += doc.Rnw knitr.tex draft.tex 
+Sources += $(wildcard *.bib)
+
+## This is the main rule
+## draft.pdf.final: rabies.bib draft.tex doc.Rnw
+## draft.pdf: draft.tex doc.Rnw
+Ignore += draft.pdf.final.pdf
+draft.pdf.final.pdf: $(Sources)
+	$(RM) $@
+	$(MAKE) draft.pdf.final
+	$(LN) draft.pdf $@
+
+## This rule will try harder to make a pdf, and less hard to make sure all of the dependencies are in order. 
+## draft.tex.pdf: draft.tex doc.Rnw
+
+## Other dependencies should be in texknit/doc.tex.mk
+draft.pdf: texknit/doc.makedeps doc.Rnw
+texknit/doc.tex: delphi.pars.rda slow/msvals.rda
+
+######################################################################
+
+## Horrible diff pipeline, consider updating
+## Need to make the dotdir doc you want manually
+diff.doc.tex: dotdir/texknit/doc.tex texknit/doc.tex
+	$(latexdiff)
+
+Ignore += draft.diff.tex
+draft.diff.tex: draft.tex
+	$(latexdiff) $<
+	
+Ignore += diff.pdf
+diff.pdf: diff.doc.tex draft.diff.tex
+	$(MVF) $< texknit/doc.tex
+	$(MAKE) draft.diff.pdf
+	$(MVF) draft.diff.pdf $@
+	$(RM) texknit/doc.tex
+
+######################################################################
+
+## Old diagnostic stuff, delete 2024 Apr 09 (Tue)
+Sources += fake.tex fakedoc.Rnw
+## fake.pdf: fake.tex fakedoc.Rnw
+
+## supp.tex.pdf: supp.tex
+## supp.pdf: supp.tex
+
+Ignore += *.loc
+
+## TODO: fancify and export both of these recipe lines ☺
+.PRECIOUS: texknit/%.tex
+texknit/%.tex: %.Rnw | texknit
+	Rscript -e "library(\"knitr\"); knit(\"$<\")"
+	$(MVF) $*.tex texknit
+
+Ignore += texknit
+texknit:
+	$(mkdir)
+
+##################################################################
+
 Sources += $(wildcard *.R)
 
 ## Moved a whole bunch of generations stuff
