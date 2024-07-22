@@ -31,6 +31,8 @@ print(SuspectDogs <- (animal
 
 dogsSuspectedNum <- nrow(SuspectDogs %>% select(ID) %>% distinct())
 
+print(dogsSuspectedNum)
+
 ## Dogs with unknown biters
 
 dogsUnknownBiter <- (SuspectDogs
@@ -38,6 +40,8 @@ dogsUnknownBiter <- (SuspectDogs
 )
 
 unknownBiters <- nrow(dogsUnknownBiter)
+
+print(unknownBiters)
 
 ## All animals should be Serengeti hear for now
 table(animal$District)
@@ -67,6 +71,9 @@ biteCount <- (bitten
 
 ## Number of multiple exposures
 print(biteCount %>% filter(timesBitten>1), n=50)
+
+print(biteCount %>% filter(timesBitten>1) %>% pull(timesBitten) %>% sum())
+
 
 bitten <- full_join(bitten, biteCount)
 saveVars(dogsTransmissionNum, dogsSuspectedNum, unknownBiters)
