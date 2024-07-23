@@ -24,7 +24,7 @@ repeatPairs <- (bitten
 stopifnot(nrow(repeatPairs)==0)
 
 ## Which dogs have inconsistent information across multiple bites?
-print(bitten
+print(multcheck <- bitten
 	|> select(ID, Suspect, Symptoms.started)
 	|> distinct()
 	|> select(ID)
@@ -32,7 +32,13 @@ print(bitten
 	|> left_join(bitten)
 , n=100)
 
-quit()
+## Are the Biters really identifiable?
+
+print(multcheck
+	|> filter(Biter.ID %in% bitten$ID)
+)
+
+## Ok, so this simply gets rid of the NAs. 
 
 
 ## Total bites recorded (not necessarily all from dogs)
@@ -42,8 +48,5 @@ biteCount <- (bitten
    %>% ungroup()
 )
 
-biteCountTest <- 
-
 bitten <- full_join(bitten, biteCount)
-saveVars(dogsTransmissionNum, dogsSuspectedNum, unknownBiters)
 rdsSave(bitten)
