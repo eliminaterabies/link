@@ -10,12 +10,14 @@ commandEnvironments()
 intervals <- (rdsRead()
 	%>% rowwise()
 	%>% mutate(
-		dateInc=as.numeric(Symptoms.started - Date.bitten) 
-		, dateIncBiter = as.numeric(Symptoms.started.biter - Date.bitten.biter)
 		, dateSerial=as.numeric(Symptoms.started - Symptoms.started.biter)
 		, dateGen=as.numeric(Date.bitten - Date.bitten.biter)
 	)
 )
+
+print(summary(intervals))
+
+quit()
 
 print(problematic_mexposures <- intervals 
 	%>% filter(timesBitten > 1) 

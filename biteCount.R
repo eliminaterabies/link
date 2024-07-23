@@ -1,3 +1,5 @@
+## What is this different from biteStats? Can it be the under the same script?
+
 library(shellpipes)
 manageConflicts()
 startGraphics()
