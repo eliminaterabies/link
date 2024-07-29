@@ -62,9 +62,15 @@ calcs.Rout: calcs.R linked.rds
 	$(pipeR)
 
 ## Filter intervals to drop animals _bitten_ more than once
-
 once.Rout: once.R calcs.rda
 	$(pipeR)
+
+incubation.Rout: incubation.R once.rds
+	$(pipeR)
+
+incubationPlot.Rout: incubationPlot.R incubation.rda
+	$(pipeR)
+
 
 ######################################################################
 

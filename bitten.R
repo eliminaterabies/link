@@ -5,7 +5,7 @@ library(tidyverse)
 
 ## Consider checking column types if there is a big upstream change
 ## There is a known problem in column 65, we're not using it.
-animal <- csvRead(comment="#", show_col_types=FALSE, col_select = -65)
+animal <- csvRead(comment="#", show_col_types=TRUE, col_select = -65)
 
 ## number of cases (Serengeti dog cases)
 print(dim(animal))

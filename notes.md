@@ -1,7 +1,6 @@
 
 What data do we need for each project? What decisions should we make? Do any of them need to be different?
 
-
 MLi: Figure out what are the overlaps for R0 and correlations
 	- linked (link biters with bitees)
 	- calc (calculate time intervals from dates)
@@ -14,5 +13,4 @@ MLi: Figure out what are the overlaps for R0 and correlations
 bitten. and linked. are just lists of scalars; intervals is a list of computed intervals
 
 ## Correlations paper
-
 
