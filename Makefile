@@ -32,7 +32,7 @@ pipeline:
 
 Sources += $(wildcard *.R)
 
-Ignore += dogs.csv
+Ignore += sddogs.csv
 
 update_dogs:
 	$(RM) sddogs.csv
@@ -55,6 +55,7 @@ read.Rout: read.R sddogs.csv
 ## The summary file read.Rout.TSV is cached in outputs; we can compare with it if data changes
 
 ## We can select and optionally rename variables with this file
+Sources += $(wildcard *.tsv)
 select.tsv: | read.Rout.TSV
 	$(pcopy)
 select.Rout: select.R read.rds select.tsv
