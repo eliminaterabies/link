@@ -37,9 +37,9 @@ biters <- (biters_rep
 biters_rep_incubation <- rep(biters[["dateinc"]], biters[["count"]])
 
 ## non-biter incubation
+## JD: What the heck is distinct doing here??
+## Should we check if it matters?
 non_biter_incubation <- (intervals
-	%>% filter(ID>0)
-	%>% filter(District == "Serengeti")
 	%>% filter(!(ID %in% biters$ID))
 	%>% filter(between(dateInc, minDays, maxDays))
 	%>% select(ID, dateInc)

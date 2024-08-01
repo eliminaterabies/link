@@ -20,15 +20,7 @@ Ignore += local.mk
 Drop = ~/Dropbox
 -include local.mk
 
-## Original data
-Ignore += datadir
-datadir/%:
-	$(MAKE) datadir
-datadir: dir=$(Drop)/Rabies_TZ/
-datadir:
-	$(linkdirname)
-
-## Pipeline outputs (different pointer inside the same Dropbox)
+## Pipeline outputs inside a bigger Rabies_TZ Dropbox
 Ignore += pipeline
 pipeline/%:
 	$(MAKE) pipeline
@@ -43,13 +35,33 @@ Sources += $(wildcard *.R)
 Ignore += dogs.csv
 
 update_dogs:
-	$(RM) dogs.csv
-dogs.csv: | pipeline
+	$(RM) sddogs.csv
+sddogs.csv: | pipeline
 	$(LNF) pipeline/SD_dogs.incubation.Rout.csv $@ 
 
 ######################################################################
 
-bitten.Rout: bitten.R dogs.csv
+## This repo for now is focused on the Serengeti District dogs
+## These are parsed out of wiseMonkey in an upstream repo
+## and shared in a Dropbox
+
+## Examine repo and decide what fields we need
+Ignore += *.Rout.TSV
+## read.Rout.TSV: read.R
+read.Rout: read.R sddogs.csv
+	$(pipeR)
+
+%.Rout.TSV: %.Rout ;
+## The summary file read.Rout.TSV is cached in outputs; we can compare with it if data changes
+
+## We can select and optionally rename variables with this file
+select.tsv: | read.Rout.TSV
+	$(pcopy)
+select.Rout: select.R read.rds select.tsv
+	$(pipeR)
+
+## Stats on who bit whom
+bitten.Rout: bitten.R select.rds
 	$(pipeR)
 
 ## Link events to parallel events for the upstream biter
@@ -70,7 +82,6 @@ incubation.Rout: incubation.R once.rds
 
 incubationPlot.Rout: incubationPlot.R incubation.rda
 	$(pipeR)
-
 
 ######################################################################
 

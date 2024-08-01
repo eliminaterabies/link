@@ -1,12 +1,9 @@
-# Link focal dog's biter
-
 library(dplyr)
 library(shellpipes)
 
 bitten <- rdsRead()
 
 ## potential biters, these are suspected dogs.
-
 biters <- (bitten 
 	%>% select(-Biter.ID)
 	%>% filter(Suspect %in% c("Yes","To Do", "Unknown"))
@@ -32,7 +29,6 @@ print(biterCount)
 print(nrow(biterCount))
 
 ## If biterID not in ID, then that means we don't have information of the dog
-
 
 ## Here we are linking all the biter that have ID and linkable.
 links <- (bitten
