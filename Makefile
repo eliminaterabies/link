@@ -41,6 +41,8 @@ sddogs.csv: | pipeline
 
 ######################################################################
 
+Sources += $(wildcard *.md)
+
 ## This repo for now is focused on the Serengeti District dogs
 ## These are parsed out of wiseMonkey in an upstream repo
 ## and shared in a Dropbox
