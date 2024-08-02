@@ -5,9 +5,7 @@ loadEnvironments()
 
 print(intervals)
 
-## only filtering dogs that are bitten once
-# print(head(intervals))
-
+## Why is timesBitten.biter sometimes NA?
 intervals <- (intervals
 	%>% ungroup()
 	%>% filter(

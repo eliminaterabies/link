@@ -58,7 +58,6 @@ biters_incubation <- (biters
 		, Days = dateinc)
 )
 
-
 print(summary(biters_incubation))
 
 non_biter_incubation <- (non_biter_incubation

@@ -61,11 +61,17 @@ select.tsv: | read.Rout.TSV
 select.Rout: select.R read.rds select.tsv
 	$(pipeR)
 
-## Stats on who bit whom
-bitten.Rout: bitten.R select.rds
+## Clean a bit and make an object corresponding to bitten dogs
+## This is all relevant dogs (we're not interested in unbitten dogs)
+## Breaking out biteStats.R 2024 Aug 02 (Fri)
+bitten.Rout: bitten.R select.rds bitten.md
 	$(pipeR)
 
-## Link events to parallel events for the upstream biter
+## Side branch to maybe calculate some stats
+## Doesn't work, and I'm not sure why it was originally interwoven with bitten
+## Instead of downstream
+
+## Link focal individuals to their biters when possible
 ## Produces table links
 linked.Rout: linked.R bitten.rds
 	$(pipeR)

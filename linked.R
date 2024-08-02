@@ -3,7 +3,7 @@ library(shellpipes)
 
 bitten <- rdsRead()
 
-## potential biters, these are suspected dogs.
+# Only suspected dogs are treated as potential biters
 biters <- (bitten 
 	%>% select(-Biter.ID)
 	%>% filter(Suspect %in% c("Yes","To Do", "Unknown"))
