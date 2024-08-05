@@ -5,7 +5,7 @@ library(dplyr)
 
 animal <- rdsRead()
 
-## Make the factor variables we want
+## Make the variables we want
 bitten <- (animal
 	|> mutate(
 		Suspect = factor(Suspect)
@@ -14,7 +14,33 @@ bitten <- (animal
 	)
 )
 
+## See which records have flags
+bitten <- (bitten
+	|> mutate(flag = 
+		Suspect %in% c("Yes","To Do", "Unknown")
+		| !is.na(Symptoms.started) | !is.na(bestInc)
+	)
+)
+
 summary(bitten)
+
+flagCount <- (bitten
+	|> filter(flag)
+	|> group_by(ID)
+	|> summarize(flags=n())
+	|> ungroup()
+	|> select(ID, flags)
+)
+
+bitten <- (left_join(bitten, flagCount)
+	|> mutate(flags = ifelse(is.na(flags), 0, flags))
+)
+
+summary(bitten)
+
+quit()
+
+table(bitten$flag, bitten$flags)
 
 ## Are there any repeats of biter/bitee pairs?
 repeatPairs <- (bitten
