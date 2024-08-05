@@ -1,2 +1,3 @@
+We wamt all bites in the focal data frame. But we only want one record per dog in the biter data frame, for linking.
 
-Was looking for dogs with multiple “bitten” records but different Suspect or symptom info. The theory was that these would be inconsistencies. Some are, but they're mostly not. They're mostly dogs that were bitten and didn't get sick, and were bitten again later. Some were listed as "Suspect" but survived to get bitten again.
+The pipeline cleaned things by record, so we could still have questionable information when looking at the level of a dog. Any dog with two different values of bestInc should have these replaced by NA; similarly for symptoms.started. A dog with two different “suspect” bites (i.e., Suspect in (Yes, To Do, Unkonw)) cannot be listed in the biter data frame. This is so that the left_join will not duplicate bite records.

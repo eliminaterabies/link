@@ -70,8 +70,8 @@ bitten.Rout: bitten.R select.rds bitten.md
 	$(pipeR)
 
 ## Side branch to maybe calculate some stats
-## Doesn't work, and I'm not sure why it was originally interwoven with bitten
-## Instead of downstream
+biteStats.Rout: biteStats.R bitten.rds
+	$(pipeR)
 
 ## Link focal individuals to their biters when possible
 ## Produces table links
