@@ -9,10 +9,17 @@ animal <- rdsRead()
 bitten <- (animal
 	|> mutate(
 		Suspect = factor(Suspect)
-		, ID = factor(ifelse(ID==0, NA, ID))
-		, Biter.ID = factor(ifelse(Biter.ID==0, NA, Biter.ID))
+		, ID = factor(if_else(ID==0, NA, ID))
+		, Biter.ID = factor(if_else(Biter.ID==0, NA, Biter.ID))
 	)
 )
+
+## Are there any repeats of biter/bitee pairs?
+repeatPairs <- (bitten
+	|> filter(!is.na(ID) & !is.na(Biter.ID))
+	|> filter(duplicated(data.frame(ID, Biter.ID)))
+)
+stopifnot(nrow(repeatPairs)==0)
 
 ## See which records have flags
 bitten <- (bitten
@@ -21,33 +28,29 @@ bitten <- (bitten
 		| !is.na(Symptoms.started) | !is.na(bestInc)
 	)
 )
-
-summary(bitten)
-
 flagCount <- (bitten
-	|> filter(flag)
 	|> group_by(ID)
-	|> summarize(flags=n())
+	|> summarize(flags=sum(flag))
 	|> ungroup()
-	|> select(ID, flags)
 )
 
+## More than one flag for a dog means no incubation period
 bitten <- (left_join(bitten, flagCount)
-	|> mutate(flags = ifelse(is.na(flags), 0, flags))
+	|> select(-flag)
+	|> mutate(bestInc = if_else(flags>1, NA, bestInc))
 )
 
 summary(bitten)
 
-quit()
-
-table(bitten$flag, bitten$flags)
-
-## Are there any repeats of biter/bitee pairs?
-repeatPairs <- (bitten
-	|> filter(!is.na(ID) & !is.na(Biter.ID))
-	|> filter(duplicated(data.frame(ID, Biter.ID)))
+## Don't allow distinct symptom dates for a dog
+symptomCount <- (bitten
+	|> select(ID, Symptoms.started)
+	|> filter(!is.na(Symptoms.started))
+	|> distinct()
+	|> group_by(ID)
+	|> summarise(symptomDates = count())
+	|> filter(symptomDates>1)
 )
-stopifnot(nrow(repeatPairs)==0)
 
 ## Which dogs have inconsistent information across multiple bites?
 print(multcheck <- bitten
