@@ -47,7 +47,7 @@ Sources += $(wildcard *.md)
 ## These are parsed out of wiseMonkey in an upstream repo
 ## and shared in a Dropbox
 
-## Examine repo and decide what fields we need
+## Examine data and decide what fields we need
 Ignore += *.Rout.TSV
 ## read.Rout.TSV: read.R
 read.Rout: read.R sddogs.csv
