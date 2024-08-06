@@ -3,11 +3,25 @@ manageConflicts()
 
 library(dplyr)
 
-animal <- rdsRead()
+bites <- rdsRead()
+summary(bites)
 
-## Number of transmission events
-## JD: In what sense is the number of transmission events? Don't we have more cleaning to do?
-dogsTransmissionNum <- nrow(animal)
+nrow(bites)
+
+print(bites
+	|> filter(flags>0)
+	|> select(ID)
+	|> distinct()
+	|> nrow()
+)
+
+print(bites
+	|> select(Biter.ID)
+	|> distinct()
+	|> nrow()
+)
+
+quit()
 
 ## What's the logic that Unknown dogs must have biters?
 SuspectDogs <- animal %>% filter(Suspect %in% c("Yes","To Do", "Unknown"))

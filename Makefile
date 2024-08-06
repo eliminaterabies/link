@@ -67,21 +67,23 @@ select.Rout: select.R read.rds select.tsv
 bitten.Rout: bitten.R select.rds bitten.md
 	$(pipeR)
 
-## Side branch to maybe calculate some stats
+## Side branch to maybe calculate some stats; not active 2024 Aug 06 (Tue)
 biteStats.Rout: biteStats.R bitten.rds
 	$(pipeR)
 
-## Separate chunk just for thinking about biter frame now.
+## Pull out _potential_ biters and make a frame
 biters.Rout: biters.R bitten.rds
 	$(pipeR)
 
-## Link focal individuals to their biters when possible
-## Produces table links
-linked.Rout: linked.R bitten.rds biters.rds
+## Link focal individuals to their biters
+linked.Rout: linked.R bitten.rds biters.rds linked.md
 	$(pipeR)
 
-## Break linkStats out from main pipeline 2024 Aug 06 (Tue)
-linkStats.Rout: linkStats.R linked.??
+## The biteCount table should be at the level of animals, not bites
+## What animals should be included, though? All the suspect ones, I guess
+## I'm here and confused 2024 Aug 06 (Tue); why do we have NAs for Suspect?
+biteCount.Rout: biteCount.R biters.rds linked.rds biteCount.md
+	$(pipeR)
 
 ## Identify and eliminate outliers
 calcs.Rout: calcs.R linked.rds

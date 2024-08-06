@@ -4,13 +4,28 @@ library(shellpipes)
 bitten <- rdsRead("bitten")
 biters <- rdsRead("biters")
 
-links <- (bitten
-	|> left_join(., biters
-		, by=c("Biter.ID"="ID")
-		, suffix=c("", ".biter")
+summary(biters)
+summary(bitten)
+
+print(biters
+	|> select(ID)
+	|> distinct()
+	|> nrow()
+)
+
+print(bitten
+	|> select(Biter.ID)
+	|> distinct()
+	|> nrow()
+)
+
+links <- (biters
+	|> left_join(bitten
+		, by=c("ID"="Biter.ID")
+		, suffix=c(".biter", "")
 	)
 )
 
-## Secret data in .rds; public in .rda
-rdsSave(links)
 
+summary(links)
+rdsSave(links)
