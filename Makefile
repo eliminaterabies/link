@@ -63,8 +63,6 @@ select.tsv: | read.Rout.TSV
 select.Rout: select.R read.rds select.tsv
 	$(pipeR)
 
-## Clean a bit and make an object corresponding to bitten dogs
-## This is all relevant dogs (we're not interested in unbitten dogs)
 ## Breaking out biteStats.R 2024 Aug 02 (Fri)
 bitten.Rout: bitten.R select.rds bitten.md
 	$(pipeR)
@@ -73,10 +71,17 @@ bitten.Rout: bitten.R select.rds bitten.md
 biteStats.Rout: biteStats.R bitten.rds
 	$(pipeR)
 
+## Separate chunk just for thinking about biter frame now.
+biters.Rout: biters.R bitten.rds
+	$(pipeR)
+
 ## Link focal individuals to their biters when possible
 ## Produces table links
-linked.Rout: linked.R bitten.rds
+linked.Rout: linked.R bitten.rds biters.rds
 	$(pipeR)
+
+## Break linkStats out from main pipeline 2024 Aug 06 (Tue)
+linkStats.Rout: linkStats.R linked.??
 
 ## Identify and eliminate outliers
 calcs.Rout: calcs.R linked.rds

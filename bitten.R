@@ -35,47 +35,26 @@ flagCount <- (bitten
 )
 
 ## More than one flag for a dog means no incubation period
+## Do we need to keep the flag count? 
+## Come back and check after we write biters.R
 bitten <- (left_join(bitten, flagCount)
-	|> select(-flag)
 	|> mutate(bestInc = if_else(flags>1, NA, bestInc))
+	|> select(-flag)
 )
 
 summary(bitten)
 
 ## Don't allow distinct symptom dates for a dog
 symptomCount <- (bitten
-	|> select(ID, Symptoms.started)
-	|> filter(!is.na(Symptoms.started))
-	|> distinct()
 	|> group_by(ID)
-	|> summarise(symptomDates = count())
-	|> filter(symptomDates>1)
+	|> summarize(sdCount = sum(!is.na(Symptoms.started)))
 )
 
-## Which dogs have inconsistent information across multiple bites?
-print(multcheck <- bitten
-	|> select(ID, Suspect, Symptoms.started)
-	|> distinct()
-	|> select(ID)
-	|> filter(duplicated(ID))
-	|> left_join(bitten)
-, n=100)
-
-## Are the Biters really identifiable?
-
-print(multcheck
-	|> filter(Biter.ID %in% bitten$ID)
+bitten <- (left_join(bitten, symptomCount)
+	|> mutate(Symptoms.started = if_else(sdCount>1, NA, Symptoms.started))
+	|> select(-sdCount)
 )
 
-## Ok, so this simply gets rid of the NAs. 
+summary(bitten)
 
-
-## Total bites recorded (not necessarily all from dogs)
-biteCount <- (bitten
-   %>% group_by(ID)
-   %>% summarize(timesBitten=n())
-   %>% ungroup()
-)
-
-bitten <- full_join(bitten, biteCount)
 rdsSave(bitten)
