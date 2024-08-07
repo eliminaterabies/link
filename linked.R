@@ -5,7 +5,6 @@ bitten <- rdsRead("bitten")
 biters <- rdsRead("biters")
 
 summary(biters)
-summary(bitten)
 
 print(biters
 	|> select(ID)
@@ -19,13 +18,18 @@ print(bitten
 	|> nrow()
 )
 
-links <- (biters
-	|> left_join(bitten
-		, by=c("ID"="Biter.ID")
-		, suffix=c(".biter", "")
+links <- (bitten
+	|> right_join(biters
+		, by=c("Biter.ID"="ID")
+		, suffix=c("", ".biter")
 	)
 )
 
+print(links
+	|> select(Biter.ID)
+	|> distinct()
+	|> nrow()
+)
 
 summary(links)
 rdsSave(links)
