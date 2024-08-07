@@ -2,7 +2,7 @@ library(dplyr)
 library(shellpipes)
 
 bitten <- rdsRead("bitten")
-biters <- rdsRead("biters")
+biters <- rdsRead("biteCount")
 
 summary(biters)
 

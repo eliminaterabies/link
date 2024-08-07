@@ -69,6 +69,10 @@ select.Rout: select.R read.rds select.tsv
 bitten.Rout: bitten.R select.rds bitten.md
 	$(pipeR)
 
+## borrow.rda: borrow.R
+borrow.Rout: borrow.R bitten.rds
+	$(pipeR)
+
 ## Side branch to maybe calculate some stats; not active 2024 Aug 06 (Tue)
 biteStats.Rout: biteStats.R bitten.rds
 	$(pipeR)
@@ -77,19 +81,26 @@ biteStats.Rout: biteStats.R bitten.rds
 biters.Rout: biters.R bitten.rds
 	$(pipeR)
 
-## Link focal individuals to their biters
-linked.Rout: linked.R bitten.rds biters.rds linked.md
+## Count bites of potential biters
+biteCount.Rout: biteCount.R biters.rds bitten.rds biteCount.md
 	$(pipeR)
 
-## The biteCount table should be at the level of animals, not bites
-## What animals should be included, though? All the suspect ones, I guess
-biteCount.Rout: biteCount.R biters.rds linked.rds biteCount.md
+## Link focal individuals to their biters
+linked.Rout: linked.R bitten.rds biteCount.rds linked.md
 	$(pipeR)
 
 ## Identify and eliminate outliers
+## Split into checking script and pipeline script
 calcs.Rout: calcs.R linked.rds
 	$(pipeR)
 
+## What data should we report? What data should we keep for now?
+intervals.Rout: intervals.R linked.rds
+	$(pipeR)
+
+######################################################################
+
+## Needs to be rebuilt or eliminated?
 ## Filter intervals to drop animals _bitten_ more than once
 once.Rout: once.R calcs.rda
 	$(pipeR)

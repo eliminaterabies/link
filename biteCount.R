@@ -4,11 +4,11 @@ startGraphics()
 
 library(dplyr)
 
-linked <- rdsRead("linked")
+bitten <- rdsRead("bitten")
 biters <- rdsRead("biters")
 dim(biters)
 
-counts <- (linked
+counts <- (bitten
 	|> group_by(Biter.ID)
 	|> summarize(bites=n())
 	|> ungroup()
@@ -17,9 +17,10 @@ counts <- (linked
 summary(counts)
 summary(biters)
 
-biters <- (full_join(biters, counts, by=c("ID"="Biter.ID"))
+biters <- (left_join(biters, counts, by=c("ID"="Biter.ID"))
 	|> mutate(bites = if_else(is.na(bites), 0, bites))
 )
 
 summary(biters)
-dim(biters)
+
+rdsSave(biters)
