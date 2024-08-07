@@ -1,5 +1,7 @@
 ## This is eliminaterabies/link 2024 Jul 17 (Wed)
 
+cmain = main
+
 current: target
 -include target.mk
 Ignore = target.mk
@@ -81,7 +83,6 @@ linked.Rout: linked.R bitten.rds biters.rds linked.md
 
 ## The biteCount table should be at the level of animals, not bites
 ## What animals should be included, though? All the suspect ones, I guess
-## I'm here and confused 2024 Aug 06 (Tue); why do we have NAs for Suspect?
 biteCount.Rout: biteCount.R biters.rds linked.rds biteCount.md
 	$(pipeR)
 
