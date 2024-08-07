@@ -12,24 +12,26 @@ print(biters
 	|> nrow()
 )
 
-print(bitten
+print(numBiters <- bitten
 	|> select(Biter.ID)
 	|> distinct()
 	|> nrow()
 )
 
 links <- (bitten
-	|> right_join(biters
+	|> inner_join(biters
 		, by=c("Biter.ID"="ID")
 		, suffix=c("", ".biter")
 	)
 )
 
-print(links
+print(linkedBiters <- links
 	|> select(Biter.ID)
 	|> distinct()
 	|> nrow()
 )
+
+print(c(missingBiters=numBiters-linkedBiters))
 
 summary(links)
 rdsSave(links)

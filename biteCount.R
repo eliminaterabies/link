@@ -1,15 +1,12 @@
-library(dplyr)
 library(shellpipes)
+manageConflicts()
+startGraphics()
+
+library(dplyr)
 
 linked <- rdsRead("linked")
 biters <- rdsRead("biters")
 dim(biters)
-
-(linked
-	|> select(Biter.ID)
-	|> distinct()
-	|> nrow()
-)
 
 counts <- (linked
 	|> group_by(Biter.ID)
@@ -20,7 +17,9 @@ counts <- (linked
 summary(counts)
 summary(biters)
 
-biters <- full_join(biters, counts, by=c("ID"="Biter.ID"))
+biters <- (full_join(biters, counts, by=c("ID"="Biter.ID"))
+	|> mutate(bites = if_else(is.na(bites), 0, bites))
+)
 
 summary(biters)
 dim(biters)
