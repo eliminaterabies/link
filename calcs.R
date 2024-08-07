@@ -7,7 +7,7 @@ library(shellpipes)
 
 commandEnvironments()
 
-intervals <- (rdsRead()
+calcs <- (rdsRead()
 	%>% rowwise()
 	%>% mutate(
 		, dateSerial=as.numeric(Symptoms.started - Symptoms.started.biter)
@@ -15,27 +15,6 @@ intervals <- (rdsRead()
 	)
 )
 
-print(summary(intervals))
+print(summary(calcs))
 
-quit()
-
-print(problematic_mexposures <- intervals 
-	%>% filter(timesBitten > 1) 
-	%>% select(ID, dateGen, Date.bitten, Date.bitten.biter) 
-	%>% group_by(ID)
-	%>% filter(!is.na(sum(dateGen)))
-)
-
-intervals <- (intervals 
-	%>% filter(!(ID %in% problematic_mexposures[["ID"]]))
-)
-
-print(intervals)
-
-print(badGen <- intervals 
-	%>% filter((dateGen < 0)|(dateGen > 150)) 
-	%>% select(ID,dateGen,everything(.))
-	%>% mutate(R0_note = "Bad dateGen")
-)
-
-saveVars(intervals, badGen)
+rdsSave(calcs)

@@ -95,7 +95,7 @@ calcs.Rout: calcs.R linked.rds
 	$(pipeR)
 
 ## What data should we report? What data should we keep for now?
-intervals.Rout: intervals.R linked.rds
+intervals.Rout: intervals.R calcs.rds
 	$(pipeR)
 
 ######################################################################
