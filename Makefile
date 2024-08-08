@@ -73,16 +73,16 @@ bitten.Rout: bitten.R select.rds bitten.md
 borrow.Rout: borrow.R bitten.rds
 	$(pipeR)
 
-## Side branch to maybe calculate some stats; not active 2024 Aug 06 (Tue)
-biteStats.Rout: biteStats.R bitten.rds
-	$(pipeR)
-
 ## Pull out _potential_ biters and make a frame
 biters.Rout: biters.R bitten.rds
 	$(pipeR)
 
 ## Count bites of potential biters
 biteCount.Rout: biteCount.R biters.rds bitten.rds biteCount.md
+	$(pipeR)
+
+## Side branch to maybe calculate some stats; not active 2024 Aug 06 (Tue)
+biteStats.Rout: biteStats.R bitten.rds
 	$(pipeR)
 
 ## Link focal individuals to their biters

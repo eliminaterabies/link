@@ -7,6 +7,7 @@ library(shellpipes)
 
 commandEnvironments()
 
+## JD: I'm Voting against this calculation; see google chat.
 calcs <- (rdsRead()
 	%>% rowwise()
 	%>% mutate(
