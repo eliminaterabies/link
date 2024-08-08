@@ -89,13 +89,15 @@ biteStats.Rout: biteStats.R bitten.rds
 linked.Rout: linked.R bitten.rds biteCount.rds linked.md
 	$(pipeR)
 
-## Identify and eliminate outliers
+## Calculate waiting times and best intervals
 ## Split into checking script and pipeline script
-calcs.Rout: calcs.R linked.rds
+calcs.Rout: calcs.R linked.rds calcs.md
 	$(pipeR)
 
-## What data should we report? What data should we keep for now?
-intervals.Rout: intervals.R calcs.rds
+calcPlots.Rout: calcPlots.R calcs.rds calcs.md
+	$(pipeR)
+
+intClean.Rout: intClean.R calcs.rds
 	$(pipeR)
 
 ######################################################################
