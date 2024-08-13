@@ -6,6 +6,8 @@ calcs <- rdsRead()
 
 ## print(summary(calcs))
 
+## Would be good to use log1p and scale_size_area to get a better idea of this stuff, but not very worried for now.
+
 print(ggplot(calcs)
 	+ aes(dateGen, combGen)
 	+ geom_point()
