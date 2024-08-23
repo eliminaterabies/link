@@ -36,6 +36,7 @@ Sources += $(wildcard *.R)
 
 Ignore += sddogs.csv
 
+## The pipeline files are currently remade by making %.report.html
 update_dogs:
 	$(RM) sddogs.csv
 sddogs.csv: | pipeline
