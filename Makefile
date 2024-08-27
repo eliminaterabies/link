@@ -70,10 +70,6 @@ select.Rout: select.R read.rds select.tsv
 bitten.Rout: bitten.R select.rds bitten.md
 	$(pipeR)
 
-## borrow.rda: borrow.R
-borrow.Rout: borrow.R bitten.rds
-	$(pipeR)
-
 ## Pull out _potential_ biters and make a frame
 biters.Rout: biters.R bitten.rds
 	$(pipeR)
@@ -123,6 +119,14 @@ incubationPlot.Rout: incubationPlot.R incubation.rda
 	$(CP) ../egfRabies/$*.R .
 
 Sources += content.mk
+
+######################################################################
+
+## Sent this to Ningrui Summer 2024
+
+## borrow.rda: borrow.R
+borrow.Rout: borrow.R bitten.rds
+	$(pipeR)
 
 ######################################################################
 
