@@ -15,20 +15,7 @@ vim_session:
 
 Sources += README.md notes.md ## TODO.md ##
 
-## Use Dropboxes to pass and cache data so that we can keep the code open
-
-## Make a local.mk (locally ☺) if you want to reset the Dropbox base directory
-Ignore += local.mk
-Drop = ~/Dropbox
--include local.mk
-
-## Pipeline outputs inside a bigger Rabies_TZ Dropbox
-Ignore += pipeline
-pipeline/%:
-	$(MAKE) pipeline
-pipeline: dir=$(Drop)/Rabies_TZ/pipeline/SD_dogs/
-pipeline:
-	$(linkdirname)
+-include ../datalinks.mk
 
 #################################################################
 
