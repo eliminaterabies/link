@@ -53,8 +53,8 @@ select.tsv: | read.Rout.TSV
 select.Rout: select.R read.rds select.tsv
 	$(pipeR)
 
-## Breaking out biteStats.R 2024 Aug 02 (Fri)
-bitten.Rout: bitten.R select.rds bitten.md
+## Breaking out biteStats.R 2024 Aug 02 (Fri) bitten.md
+bitten.Rout: bitten.R select.rds
 	$(pipeR)
 
 ## Pull out _potential_ biters and make a frame
