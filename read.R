@@ -17,4 +17,6 @@ data.frame(
 	, newName = NA
 ) |> tsvSave(ext="Rout.TSV")
 
+print(dim(animal))
+
 rdsSave(animal)

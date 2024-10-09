@@ -38,6 +38,7 @@ Sources += $(wildcard *.md)
 ## and shared in a Dropbox
 
 ## Examine data and decide what fields we need
+## This is reading in SD dogs with best inc; if we need to change bestinc, it will need to be in the tz repo
 Ignore += *.Rout.TSV
 ## read.Rout.TSV: read.R
 read.Rout: read.R sddogs.csv

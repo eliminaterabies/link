@@ -38,4 +38,6 @@ calcs <- (calcs
 
 print(summary(calcs))
 
+print(dim(calcs))
+
 rdsSave(calcs)

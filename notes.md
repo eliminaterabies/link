@@ -1,3 +1,11 @@
+2024 Oct 9 (Wed)
+
+We need to read over both MS to determine what info is needed in what ms. 
+
+For R0, we need sddogs which is processed rabiesTZ, and then everything in linked. 
+
+For correlations, we will need the biteStats before linked. 
+
 
 2024 Aug 13 (Tue)
 =================
