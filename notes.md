@@ -2,7 +2,7 @@
 
 We need to read over both MS to determine what info is needed in what ms. 
 
-For R0, we need sddogs which is processed rabiesTZ, and then everything in linked. Do we want redo hampson et al GI construction method or just cite the 2009 paper? 
+For R0, we need sddogs which is processed rabiesTZ, and then everything in linked. Do we want redo hampson et al GI construction method or just cite the 2009 paper? We actually do need bitestats but for linked to do GI sampling. 
 
 For correlations, we will need the biteStats before linked. 
 
