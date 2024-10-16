@@ -38,7 +38,10 @@ flagCount <- (bitten
 ## Do we need to keep the flag count? 
 ## Come back and check after we write biters.R
 bitten <- (left_join(bitten, flagCount)
-	|> mutate(bestInc = if_else(flags>1, NA, bestInc))
+	|> mutate(
+		bestInc = if_else(flags>1, NA, bestInc)
+		, Symptoms.started = if_else(flags>1, NA, Symptoms.started)
+	)
 	|> select(-flag)
 )
 

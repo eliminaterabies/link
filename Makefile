@@ -13,6 +13,8 @@ vim_session:
 
 ######################################################################
 
+Sources += $(wildcard *.md)
+
 Sources += README.md notes.md ## TODO.md ##
 
 -include ../datalinks.mk
@@ -31,7 +33,6 @@ sddogs.csv: | pipeline
 
 ######################################################################
 
-Sources += $(wildcard *.md)
 
 ## This repo for now is focused on the Serengeti District dogs
 ## These are parsed out of wiseMonkey in an upstream repo

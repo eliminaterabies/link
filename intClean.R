@@ -22,3 +22,13 @@ intervals <- (calcs
 )
 
 summary(intervals)
+
+## Four manually suspected dogs
+summary(intervals
+	|> filter((ID %in% c(161, 628, 7966, 7967)))
+)
+
+## All were dropped from biter frame
+summary(intervals
+	|> filter((Biter.ID %in% c(161, 628, 7966, 7967)))
+)
