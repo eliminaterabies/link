@@ -1,8 +1,9 @@
+## Goes with biters.md
 library(dplyr)
 library(shellpipes)
 
 bitten <- rdsRead()
-table(bitten$flags)
+## table(bitten$rabiesFlags)
 
 summary(bitten)
 
@@ -10,13 +11,14 @@ summary(bitten)
 biters <- (bitten 
 	|> select(-Biter.ID)
 	|> filter(!is.na(ID))
-	|> filter(Suspect %in% c("Yes","To Do", "Unknown"))
-	|> mutate(Date.bitten = ifelse(flags>1, NA, Date.bitten))
-	|> select(-flags)
+	|> filter(rabiesFlags>0)
+	## Not decided yet, JD wants to move this next line back up to bitten.md
+	|> mutate(Date.bitten = ifelse(rabiesFlags>1, NA, Date.bitten))
 	|> distinct()
 )
 
 ## There should be no repeats now
+## We used distinct() to combine information for dogs 
 ## If there are, we need to look more closely at info for multiply bitten dogs
 repBiters <- (biters
 	|> group_by(ID)

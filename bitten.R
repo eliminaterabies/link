@@ -1,3 +1,5 @@
+## See bitten.md
+
 library(shellpipes)
 manageConflicts()
 
@@ -21,28 +23,27 @@ repeatPairs <- (bitten
 )
 stopifnot(nrow(repeatPairs)==0)
 
-## See which records have flags
+## Is rabies possible
 bitten <- (bitten
-	|> mutate(flag = 
+	|> mutate(rabiesPossible = 
 		Suspect %in% c("Yes","To Do", "Unknown")
-		| !is.na(Symptoms.started) | !is.na(bestInc)
+		| is.na(Suspect) | !is.na(Symptoms.started) | !is.na(bestInc)
 	)
 )
+
+## Group across incidents for a given bitee
 flagCount <- (bitten
 	|> group_by(ID)
-	|> summarize(flags=sum(flag))
+	|> summarize(rabiesFlags=sum(rabiesPossible))
 	|> ungroup()
 )
 
-## More than one flag for a dog means no incubation period
-## Do we need to keep the flag count? 
-## Come back and check after we write biters.R
+## More than one rabiesPossible flag for a dog means 
+## we throw out previously calculated bestInc
+## because we're not confident about the relevant bitten date
 bitten <- (left_join(bitten, flagCount)
-	|> mutate(
-		bestInc = if_else(flags>1, NA, bestInc)
-		, Symptoms.started = if_else(flags>1, NA, Symptoms.started)
-	)
-	|> select(-flag)
+	|> mutate( bestInc = if_else(rabiesFlags>1, NA, bestInc))
+	|> select(-rabiesPossible)
 )
 
 summary(bitten)
