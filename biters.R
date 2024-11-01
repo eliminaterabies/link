@@ -7,26 +7,25 @@ bitten <- rdsRead()
 
 summary(bitten)
 
-# Only suspected dogs are treated as potential biters
+## FIXME: we could try to save Date.bitten if all Date.bitten values are the same (and no NAs)
 biters <- (bitten 
 	|> select(-Biter.ID)
 	|> filter(!is.na(ID))
-	|> filter(rabiesFlags>0)
-	## Not decided yet, JD wants to move this next line back up to bitten.md
-	|> mutate(Date.bitten = ifelse(rabiesFlags>1, NA, Date.bitten))
+	|> filter(rabiesPossible>0)
+	|> select(-rabiesPossible)
+	|> mutate(Date.bitten = if_else(rabiesFlags>1, NA, Date.bitten))
 	|> distinct()
 )
 
-## There should be no repeats now
 ## We used distinct() to combine information for dogs 
-## If there are, we need to look more closely at info for multiply bitten dogs
+## Repeats that remain should be reported to Glasgow and dropped for now
 repBiters <- (biters
 	|> group_by(ID)
 	|> summarize(count=n()) 
-	|> filter(count>1)
-	|> nrow()
 ) 
 
-stopifnot(repBiters==0)
+biters <- biters |> full_join(repBiters)
 summary(biters)
-rdsSave(biters)
+tsvSave(biters |> filter(count>1) |> select(-count))
+rdsSave(biters |> filter(count==1) |> select(-count))
+

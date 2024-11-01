@@ -41,20 +41,28 @@ flagCount <- (bitten
 ## More than one rabiesPossible flag for a dog means 
 ## we throw out previously calculated bestInc
 ## because we're not confident about the relevant bitten date
+## rabiesPossible is dropped bc already summarized
 bitten <- (left_join(bitten, flagCount)
 	|> mutate( bestInc = if_else(rabiesFlags>1, NA, bestInc))
-	|> select(-rabiesPossible)
 )
 
 summary(bitten)
 
-## Don't allow distinct symptom dates for a dog
+## Find dogs with two different Symptoms.started dates
+## Report to Glasgow and set Symptoms.started to NA for now
 symptomCount <- (bitten
+	|> select(ID, Symptoms.started)
+	|> filter(!is.na(Symptoms.started))
+	|> distinct()
 	|> group_by(ID)
 	|> summarize(sdCount = sum(!is.na(Symptoms.started)))
 )
+bitten <- left_join(bitten, symptomCount)
 
-bitten <- (left_join(bitten, symptomCount)
+## Report these repeats
+bitten |> filter(sdCount>1) |> tsvSave()
+
+bitten <- (bitten
 	|> mutate(Symptoms.started = if_else(sdCount>1, NA, Symptoms.started))
 	|> select(-sdCount)
 )

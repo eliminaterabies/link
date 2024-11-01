@@ -33,7 +33,6 @@ sddogs.csv: | pipeline
 
 ######################################################################
 
-
 ## This repo for now is focused on the Serengeti District dogs
 ## These are parsed out of wiseMonkey in an upstream repo
 ## and shared in a Dropbox
@@ -55,11 +54,13 @@ select.tsv: | read.Rout.TSV
 select.Rout: select.R read.rds select.tsv
 	$(pipeR)
 
-## Breaking out biteStats.R 2024 Aug 02 (Fri) bitten.md
+## Breaking out biteStats.R 2024 Aug 02 (Fri) ## bitten.md
+## bitten.Rout.tsv: bitten.R select.rds
 bitten.Rout: bitten.R select.rds
 	$(pipeR)
 
 ## Pull out _potential_ biters and make a frame
+## biters.Rout.tsv: biters.R bitten.rds
 biters.Rout: biters.R bitten.rds
 	$(pipeR)
 
@@ -98,6 +99,12 @@ incubation.Rout: incubation.R once.rds
 
 incubationPlot.Rout: incubationPlot.R incubation.rda
 	$(pipeR)
+
+######################################################################
+
+## Report files
+%.glasgow.tsv: %.report.txt %.Rout.tsv
+	$(cat)
 
 ######################################################################
 
