@@ -110,6 +110,7 @@ incubationPlot.Rout: incubationPlot.R incubation.rda
 %.glasgow.tsv: %.report.txt %.Rout.tsv
 	$(cat)
 
+Sources += $(wildcard *.report.txt)
 reports = $(glasgow:%=%.glasgow.tsv)
 reports: $(reports)
 

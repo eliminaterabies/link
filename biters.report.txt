@@ -1,0 +1,1 @@
+## Dogs with inconsistent Date.bitten information connected to possible rabies
