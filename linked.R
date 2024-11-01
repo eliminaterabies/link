@@ -4,14 +4,14 @@ library(shellpipes)
 bitten <- rdsRead("bitten")
 biters <- rdsRead("biteCount")
 
-summary(biters)
-
+## Potential biters (animals not tagged convincing as non-rabid)
 print(biters
 	|> select(ID)
 	|> distinct()
 	|> nrow()
 )
 
+## Dogs observed biting
 print(numBiters <- bitten
 	|> select(Biter.ID)
 	|> distinct()

@@ -26,6 +26,7 @@ repBiters <- (biters
 
 biters <- biters |> full_join(repBiters)
 summary(biters)
+
+## FIXME: Can some dogs here be saved if Glasgow does not respond?
 tsvSave(biters |> filter(count>1) |> select(-count))
 rdsSave(biters |> filter(count==1) |> select(-count))
-
