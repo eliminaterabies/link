@@ -81,11 +81,12 @@ linked.Rout: linked.R bitten.rds biteCount.rds
 
 ## Calculate waiting times and best intervals
 ## Split into checking script and pipeline script
-calcs.Rout: calcs.R linked.rds calcs.md
-calcs.Rout: calcs.R linked.rds calcs.md
+## calcs.Rout: calcs.R calcs.md
+calcs.Rout: calcs.R linked.rds
 	$(pipeR)
 
-calcPlots.Rout: calcPlots.R calcs.rds calcs.md
+## Look at various intervals; there are probably still a couple of units problems to be fixed
+calcPlots.Rout: calcPlots.R calcs.rds
 	$(pipeR)
 
 intClean.Rout: intClean.R calcs.rds
