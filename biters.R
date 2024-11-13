@@ -3,7 +3,7 @@ library(dplyr)
 library(shellpipes)
 
 bitten <- rdsRead()
-## table(bitten$rabiesFlags)
+## table(bitten$bittenFlags)
 
 summary(bitten)
 
@@ -13,7 +13,7 @@ biters <- (bitten
 	|> filter(!is.na(ID))
 	|> filter(rabiesPossible>0)
 	|> select(-rabiesPossible)
-	|> mutate(Date.bitten = if_else(rabiesFlags>1, NA, Date.bitten))
+	|> mutate(Date.bitten = if_else(bittenFlags>1, NA, Date.bitten))
 	|> distinct()
 )
 

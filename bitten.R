@@ -7,7 +7,7 @@ library(dplyr)
 
 animal <- rdsRead()
 
-## Make the variables we want
+## Clean some variables
 bitten <- (animal
 	|> mutate(
 		Suspect = factor(Suspect)
@@ -34,7 +34,7 @@ bitten <- (bitten
 ## Group across incidents for a given bitee
 flagCount <- (bitten
 	|> group_by(ID)
-	|> summarize(rabiesFlags=sum(rabiesPossible))
+	|> summarize(bittenFlags=sum(rabiesPossible))
 	|> ungroup()
 )
 
@@ -43,7 +43,7 @@ flagCount <- (bitten
 ## because we're not confident about the relevant bitten date
 ## rabiesPossible is dropped bc already summarized
 bitten <- (left_join(bitten, flagCount)
-	|> mutate( bestInc = if_else(rabiesFlags>1, NA, bestInc))
+	|> mutate( bestInc = if_else(bittenFlags>1, NA, bestInc))
 )
 
 summary(bitten)
