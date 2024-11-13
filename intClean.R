@@ -23,6 +23,11 @@ intervals <- (calcs
 
 summary(intervals)
 
+
+## Do we still need to check this? 
+## Are we going to remove them?
+
+
 ## Four manually suspected dogs
 summary(intervals
 	|> filter((ID %in% c(161, 628, 7966, 7967)))
