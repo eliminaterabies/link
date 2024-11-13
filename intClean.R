@@ -23,10 +23,8 @@ intervals <- (calcs
 
 summary(intervals)
 
-
 ## Do we still need to check this? 
 ## Are we going to remove them?
-
 
 ## Four manually suspected dogs
 summary(intervals
@@ -34,6 +32,6 @@ summary(intervals
 )
 
 ## All were dropped from biter frame
-summary(intervals
+nrow(intervals
 	|> filter((Biter.ID %in% c(161, 628, 7966, 7967)))
 )
