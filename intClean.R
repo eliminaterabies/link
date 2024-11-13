@@ -16,22 +16,20 @@ pickFirst <- function(...){
 	return(v)
 }
 
+## See README.md for a little more on the NA logic
 intervals <- (calcs
-	|> mutate(bestGen = pickFirst(combGen, dateGen))
-	|> mutate(bestSerial = pickFirst(combSerial, dateSerial))
+	|> mutate(
+		bestGen = pickFirst(combGen, dateGen)
+		, bestSerial = pickFirst(combSerial, dateSerial)
+		, bestGen = if_else(bittenFlags.biter>1, NA, bestGen)
+		, bestSerial = if_else(bittenFlags>1, NA, bestSerial)
+	) |> select(
+		Biter.ID, ID, Date.bitten, bestInc, bestInc.biter
+		, waitingTime, bestGen, bestSerial
+	)
 )
 
 summary(intervals)
 
-## Do we still need to check this? 
-## Are we going to remove them?
-
-## Four manually suspected dogs
-summary(intervals
-	|> filter((ID %in% c(161, 628, 7966, 7967)))
-)
-
-## All were dropped from biter frame
-nrow(intervals
-	|> filter((Biter.ID %in% c(161, 628, 7966, 7967)))
-)
+dog <- 6199
+print(intervals |> filter((ID==dog) | (Biter.ID==dog)) |> as.data.frame())
