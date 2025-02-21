@@ -92,6 +92,10 @@ calcPlots.Rout: calcPlots.R calcs.rds
 intClean.Rout: intClean.R calcs.rds
 	$(pipeR)
 
+## Literally just export intervals (this can be public)
+intExport.Rout: intExport.R intClean.rds
+	$(pipeR)
+
 ######################################################################
 
 ## Needs to be rebuilt or eliminated?

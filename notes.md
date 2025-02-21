@@ -28,34 +28,8 @@ Expecting to hear back from Sikana about clean up, hopefully soon. Once we hear 
 > kind of seems fine. The proportion is suspiciously high, but I think
 > there is no question that 0 should be our floor.
 
-## Short intervals (waiting times, infectious period)
-
-> Ceiling.
-
-Throw out: 14
-Check: 10
-
-> Floor
-
-> I don't remember any discussions of floors for generation intervals or
-> incubation periods, but I kind of think we should have one. 
-
-0d (check as well as throw out, of course). There are too many 0d intervals, and we should think about this for a future statistical model.
-
-> Ceiling, the current code has examples with 100, 150 and 1000 days.
-
-## Long intervals (generations and incubation)
-
-how long is the incubation period for canine rabies in domestic dogs?
-
-> Floor (still waiting for Katie)
-Check: 14d
-Reject: 10d
-
-> Ceiling
-Check: 180d
-Reject: 730d
-
+2025 Feb 21 (Fri)
+Look at README.md in the pipeline directory for Delphi decisions from Katie. For intrinsic periods those should be implemented there; for calculated periods, we should implement them here.
 
 ----------------------------------------------------------------------
 
