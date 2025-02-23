@@ -60,6 +60,8 @@ glasgow += bitten
 bitten.Rout: bitten.R select.rds
 	$(pipeR)
 
+## TODO: What is a potential biter? Why don't we count bites first and then look for these flags?
+
 ## Pull out **potential** biters and make a frame
 ## biters.glasgow.tsv: biters.R biters.report.txt
 biters.Rout: biters.R bitten.rds
@@ -68,6 +70,10 @@ biters.Rout: biters.R bitten.rds
 ## Count bites of potential biters
 ## biteCount.Rout: biteCount.R biteCount.md
 biteCount.Rout: biteCount.R biters.rds bitten.rds
+	$(pipeR)
+
+## Export public biteCount information
+biteExport.Rout: biteExport.R biteCount.rds
 	$(pipeR)
 
 ## Side branch to maybe calculate some stats; not active 2024 Aug 06 (Tue)
@@ -92,7 +98,7 @@ calcPlots.Rout: calcPlots.R calcs.rds
 intClean.Rout: intClean.R calcs.rds
 	$(pipeR)
 
-## Literally just export intervals (this can be public)
+## Export public transmission interval information
 intExport.Rout: intExport.R intClean.rds
 	$(pipeR)
 
@@ -122,10 +128,10 @@ reports: $(reports)
 ######################################################################
 
 ## Get rid of all of this including content.mk
+## Disabled rule 2025 Feb 23 (Sun)
 
-.PRECIOUS: %.R
-%.R:
-	$(CP) ../egfRabies/$*.R .
+## .PRECIOUS: %.R
+## %.R: ; $(CP) ../egfRabies/$*.R .
 
 Sources += content.mk
 
