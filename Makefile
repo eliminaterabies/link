@@ -28,8 +28,9 @@ Ignore += sddogs.csv
 ## The pipeline files are currently remade by making %.report.html
 update_dogs:
 	$(RM) sddogs.csv
-sddogs.csv: | pipeline
-	$(LNF) pipeline/SD_dogs.incubation.Rout.csv $@ 
+#sddogs.csv: | pipeline
+sddogs.csv:
+	$(LNF) ../pipeline/SD_dogs.incubation.Rout.csv $@ 
 
 ######################################################################
 

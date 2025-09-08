@@ -33,5 +33,20 @@ print(linkedBiters <- links
 
 print(c(missingBiters=numBiters-linkedBiters))
 
+## This code was missing
+
+biterCount <- (bitten
+	%>% filter(!is.na(Biter.ID))
+	%>% group_by(Biter.ID)
+	%>% summarize(secondaryInf=n())
+	%>% arrange(desc(secondaryInf))
+	%>% select(ID=Biter.ID, secondaryInf)
+)
+
+mean_biting_freq <- mean(biterCount$secondaryInf)
+
+## 
+
+
 summary(links)
-rdsSave(links)
+saveVars(links, mean_biting_freq)

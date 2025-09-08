@@ -1,0 +1,3 @@
+Biter.ID	ID	Suspect	Date.bitten	Symptoms.started	bestInc	rabiesPossible	bittenFlags	sdCount
+NA	11827	Yes	NA	2022-06-03	NA	TRUE	2	2
+11828	11827	Yes	2022-06-04	2022-06-17	NA	TRUE	2	2
